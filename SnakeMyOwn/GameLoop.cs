@@ -32,18 +32,7 @@ namespace SnakeMyOwn
 
             while (true)
             {
-                Stopwatch sw = Stopwatch.StartNew();
-                while (sw.ElapsedMilliseconds < 500)
-                {
-                    CheckInput();
-
-                }
-
-                map.DrawGameField();
-                DrawSnake();
-
-
-
+                CheckInput();
                 snake.Controls(direction);
 
                 if (snake.GetHeadLocation().X == map.GetFoodCoords().X || snake.GetHeadLocation().Y == map.GetFoodCoords().Y)
@@ -51,6 +40,10 @@ namespace SnakeMyOwn
                     map.AddFoodRandom();
                 }
 
+                map.DrawGameField();
+                DrawSnake();
+
+                Thread.Sleep(1000);
             }
         }
         //public void DrawSnake()
@@ -90,7 +83,7 @@ namespace SnakeMyOwn
                         direction = 3;
                         break;
                 }
-            }         
+            }
         }
     }
 }
