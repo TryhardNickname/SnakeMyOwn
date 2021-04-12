@@ -36,15 +36,12 @@ namespace SnakeMyOwn
                 Point moveAndGetLastPoint = snake.Controls(direction);
                 map.GameField[moveAndGetLastPoint.X, moveAndGetLastPoint.Y] = "  ";
 
-                if (snake.GetHeadLocation().X == map.GetFoodCoords().X || snake.GetHeadLocation().Y == map.GetFoodCoords().Y)
-                {
-                    map.AddFoodRandom();
-                }
+                HitCollision();
 
                 DrawSnake();
                 map.DrawGameField();
 
-                Thread.Sleep(500);
+                Thread.Sleep(200);
             }
         }
         public void DrawSnake()
@@ -58,12 +55,6 @@ namespace SnakeMyOwn
             }
         }
 
-        //public void DrawSnake()
-        //{
-        //    map.GameField[snake.GetHeadLocation().X, snake.GetHeadLocation().Y] = "██";
-        //}
-        //map.GameField[snake.GetHeadLocation().X, snake.GetBody().First().Y] = "██";   
-
         public void CheckInput()
         {
             ConsoleKey key;
@@ -74,18 +65,50 @@ namespace SnakeMyOwn
                 switch (key)
                 {
                     case ConsoleKey.W:
-                        direction = 0;
+                        if (direction != 2)
+                        {
+                            direction = 0;
+                        }
                         break;
                     case ConsoleKey.D:
-                        direction = 1;
+                        if (direction != 3)
+                        {
+                            direction = 1;
+                        }
                         break;
                     case ConsoleKey.S:
-                        direction = 2;
+                        if (direction != 0)
+                        {
+                            direction = 2;
+                        }
                         break;
                     case ConsoleKey.A:
-                        direction = 3;
+                        if (direction != 1)
+                        {
+                            direction = 3;
+                        }
                         break;
                 }
+            }
+        }
+
+        public void HitCollision()
+        {
+            Point foodCoord = map.GetFoodCoords();
+            Point head = snake.GetHeadLocation();
+            List<Point> body = snake.GetBody();
+
+            if (head == foodCoord)
+            {
+                map.AddFoodRandom();
+            }
+            else if (body.Contains(head))
+            {
+                Console.WriteLine("game over");
+            }
+            else if (map.Barrier.Contains(head))
+            {
+                Console.WriteLine("game over");
             }
         }
     }

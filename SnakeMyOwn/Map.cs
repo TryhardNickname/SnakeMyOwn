@@ -13,6 +13,7 @@ namespace SnakeMyOwn
     {
         public static int GameSize = 45;
         public string[,] GameField = new string[GameSize, GameSize];
+        public List<Point> Barrier = new List<Point>();
         Point foodCoords;
 
         public Map()
@@ -25,9 +26,17 @@ namespace SnakeMyOwn
             for (int i = 0; i < GameSize; i++)
             {
                 GameField[0, i] = "░░";  // Top
+                Barrier.Add(new Point(0, i));
+
                 GameField[GameSize - 1, i] = "░░";  // Bottom
+                Barrier.Add(new Point(GameSize - 1, i));
+
                 GameField[i, 0] = "░░";  // Left
+                Barrier.Add(new Point(i, 0));
+
                 GameField[i, GameSize - 1] = "░░";  // Right
+                Barrier.Add(new Point(i, GameSize - 1));
+
             }
         }
 
@@ -55,8 +64,9 @@ namespace SnakeMyOwn
         {
             Random rand = new Random();
             // ❤
-            
-            while (GameField[foodCoords.X, foodCoords.Y] == "██" || GameField[foodCoords.X, foodCoords.Y] == "░░")
+
+            foodCoords = new Point(rand.Next(2, GameSize - 2), rand.Next(2, GameSize - 2));
+            while (GameField[foodCoords.X, foodCoords.Y] == "██" && GameField[foodCoords.X, foodCoords.Y] == "░░")
             {
                 foodCoords = new Point(rand.Next(2, GameSize - 2), rand.Next(2, GameSize - 2));
             }
