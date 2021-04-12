@@ -33,32 +33,33 @@ namespace SnakeMyOwn
             while (true)
             {
                 CheckInput();
-                snake.Controls(direction);
+                Point removeLast = snake.Controls(direction);
+                map.GameField[removeLast.X, removeLast.Y] = "  ";
 
                 if (snake.GetHeadLocation().X == map.GetFoodCoords().X || snake.GetHeadLocation().Y == map.GetFoodCoords().Y)
                 {
                     map.AddFoodRandom();
                 }
 
-                map.DrawGameField();
                 DrawSnake();
+                map.DrawGameField();
 
                 Thread.Sleep(1000);
             }
         }
-        //public void DrawSnake()
-        //{
-        //    foreach (Point point in snake.GetBody())
-        //    {
-
-        //        map.GameField[point.X, point.Y] = "██";
-        //    }
-        //}
-
         public void DrawSnake()
         {
-            map.GameField[snake.GetHeadLocation().X, snake.GetHeadLocation().Y] = "██";   
+            List<Point> body = snake.GetBody();
+            for (int i = 0; i < body.Count; i++)
+            {
+                map.GameField[body[i].X, body[i].Y] = "██";
+            }
         }
+
+        //public void DrawSnake()
+        //{
+        //    map.GameField[snake.GetHeadLocation().X, snake.GetHeadLocation().Y] = "██";
+        //}
         //map.GameField[snake.GetHeadLocation().X, snake.GetBody().First().Y] = "██";   
 
         public void CheckInput()
@@ -67,7 +68,7 @@ namespace SnakeMyOwn
             if (Console.KeyAvailable)
             {
                 key = Console.ReadKey().Key;
-                
+
                 switch (key)
                 {
                     case ConsoleKey.W:

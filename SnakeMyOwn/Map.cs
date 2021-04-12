@@ -68,7 +68,5 @@ namespace SnakeMyOwn
         {
             return foodCoords;
         }
-
-
     }
 }
