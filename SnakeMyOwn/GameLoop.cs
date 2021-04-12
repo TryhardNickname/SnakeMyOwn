@@ -33,8 +33,8 @@ namespace SnakeMyOwn
             while (true)
             {
                 CheckInput();
-                Point removeLast = snake.Controls(direction);
-                map.GameField[removeLast.X, removeLast.Y] = "  ";
+                Point moveAndGetLastPoint = snake.Controls(direction);
+                map.GameField[moveAndGetLastPoint.X, moveAndGetLastPoint.Y] = "  ";
 
                 if (snake.GetHeadLocation().X == map.GetFoodCoords().X || snake.GetHeadLocation().Y == map.GetFoodCoords().Y)
                 {
@@ -44,14 +44,16 @@ namespace SnakeMyOwn
                 DrawSnake();
                 map.DrawGameField();
 
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
             }
         }
         public void DrawSnake()
         {
             List<Point> body = snake.GetBody();
-            for (int i = 0; i < body.Count; i++)
-            {
+
+            map.GameField[snake.GetHeadLocation().X, snake.GetHeadLocation().Y] = "██";
+            for (int i = 1; i < body.Count; i++)
+            {               
                 map.GameField[body[i].X, body[i].Y] = "██";
             }
         }

@@ -17,14 +17,14 @@ namespace SnakeMyOwn
 
         public Snake()
         {
-            Size = 1;
-            HeadLocation = new Point(20, 20);
+            Size = 5;
             SnakeBody = new List<Point>();
-            SnakeBody.Add(HeadLocation);
-            for (int i = 1; i < 5; i++)
+            int startpos = 20;
+            for (int i = 0; i < 5; i++)
             {
-                SnakeBody.Add(new Point(HeadLocation.X + i, HeadLocation.Y));
+                SnakeBody.Insert(i, new Point(startpos + i, startpos));
             }
+            HeadLocation = SnakeBody.First();
         }
 
         public Point Controls(int movement)
