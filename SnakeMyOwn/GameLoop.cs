@@ -36,13 +36,18 @@ namespace SnakeMyOwn
                 Point moveAndGetLastPoint = snake.Controls(direction);
                 map.GameField[moveAndGetLastPoint.X, moveAndGetLastPoint.Y] = "  ";
 
-                HitCollision();
+                if (HitCollision())
+                {
+                    break;             
+                }
 
                 DrawSnake();
                 map.DrawGameField();
 
                 Thread.Sleep(200);
             }
+            GameOver();
+            Console.ReadKey();
         }
         public void DrawSnake()
         {
@@ -92,7 +97,7 @@ namespace SnakeMyOwn
             }
         }
 
-        public void HitCollision()
+        public bool HitCollision()
         {
             Point foodCoord = map.GetFoodCoords();
             Point head = snake.GetHeadLocation();
@@ -101,15 +106,28 @@ namespace SnakeMyOwn
             if (head == foodCoord)
             {
                 map.AddFoodRandom();
+                snake.AddBody();
+                return false;
             }
             else if (body.Contains(head))
-            {
-                Console.WriteLine("game over");
+            {              
+                return true;
             }
             else if (map.Barrier.Contains(head))
-            {
-                Console.WriteLine("game over");
+            {          
+                return true;
             }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void GameOver()
+        {
+            Console.Clear();
+            Console.WriteLine("Game Over");
+            Console.WriteLine("you scored: " + snake.GetSize());
         }
     }
 }

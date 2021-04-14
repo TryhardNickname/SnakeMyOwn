@@ -74,6 +74,12 @@ namespace SnakeMyOwn
             return oldPos;
         }
 
+        public void AddBody()
+        {
+            SnakeBody.Insert(0, HeadLocation);
+            Size++;
+        }
+
         public Point GetHeadLocation()
         {
             return HeadLocation;
@@ -82,6 +88,11 @@ namespace SnakeMyOwn
         public List<Point> GetBody()
         {
             return SnakeBody;
+        }
+
+        public int GetSize()
+        {
+            return Size;
         }
 
     }
